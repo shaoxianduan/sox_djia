@@ -21,7 +21,7 @@
 
 ## 🌐 Live Demo
 
-Try the app online: [SOX vs DJIA Comparison](https://soxdjia-lax6snjubmposywh7jrfty.streamlit.app/)
+Try the app online: [SOX vs DJIA Comparison](https://soxdjia-7apxnrvdq6lydkj8w6atm4.streamlit.app/)
 
 
 ---
