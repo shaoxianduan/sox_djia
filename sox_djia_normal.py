@@ -1,9 +1,10 @@
 import yfinance as yf
 import pandas as pd
 import streamlit as st
+import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
-from streamlit_echarts import st_echarts
 
+# ------------------ Author : Shaoxian Duan--------
 # ------------------ Page Config ------------------
 st.set_page_config(page_title="SOX vs DJIA", layout="wide")
 st.title("📈 SOX vs DJIA Positive/Negative Return Comparison")
@@ -62,63 +63,49 @@ sox_window = sox_window.iloc[-min_len:]
 djia_window = djia_window.iloc[-min_len:]
 
 # ------------------ Normalize Cumulative Returns ------------------
-sox_norm = sox_window['Adj Close']
-if isinstance(sox_norm, pd.DataFrame):
-    sox_norm = sox_norm.iloc[:, 0]  # 确保是 Series
-sox_norm = sox_norm.astype(float) / float(sox_norm.iloc[0]) * 100
-
-djia_norm = djia_window['Adj Close']
-if isinstance(djia_norm, pd.DataFrame):
-    djia_norm = djia_norm.iloc[:, 0]
-djia_norm = djia_norm.astype(float) / float(djia_norm.iloc[0]) * 100
-
-dates = sox_window.index.strftime("%Y-%m-%d").tolist()
+sox_norm = sox_window['Adj Close'].astype(
+    float).squeeze() / float(sox_window['Adj Close'].iloc[0]) * 100
+djia_norm = djia_window['Adj Close'].astype(
+    float).squeeze() / float(djia_window['Adj Close'].iloc[0]) * 100
+dates = sox_window.index
 
 # ------------------ Difference ------------------
-diff = sox_norm - djia_norm
+diff = sox_norm - djia_norm  # 1D Series
 
-# ------------------ Display Final Difference safely ------------------
-final_diff = diff.iloc[-1]  # 单个浮点数
-final_diff_display = f"{final_diff:.2f}" if pd.notna(final_diff) else "N/A"
+# ------------------ Display Final Difference ------------------
+final_diff = diff.iloc[-1]  # scalar value
 st.metric(label="Final Difference (SOX - DJIA, % points)",
-          value=final_diff_display)
+          value=f"{final_diff:.2f}")
 
 # ------------------ Plot Normalized Cumulative Returns + Difference ------------------
 st.subheader("Normalized Cumulative Returns (Start = 100) + Difference")
-option_main = {
-    "title": {"text": f"SOX vs DJIA Comparison ({selected_window})"},
-    "tooltip": {"trigger": "axis"},
-    "legend": {"data": ["SOX", "DJIA", "Difference"]},
-    "xAxis": {"type": "category", "data": dates},
-    "yAxis": {"type": "value", "name": "Normalized Price / Difference"},
-    "series": [
-        {"name": "SOX", "type": "line", "data": sox_norm.round(
-            2).tolist(), "smooth": True},
-        {"name": "DJIA", "type": "line", "data": djia_norm.round(
-            2).tolist(), "smooth": True},
-        {"name": "Difference", "type": "line", "data": diff.round(2).tolist(),
-         "lineStyle": {"type": "dashed"}, "smooth": True}
-    ]
-}
-st_echarts(options=option_main, height="500px")
+fig, ax1 = plt.subplots(figsize=(12, 6))
+ax1.plot(dates, sox_norm, label='SOX', color='blue')
+ax1.plot(dates, djia_norm, label='DJIA', color='orange')
+ax1.set_xlabel("Date")
+ax1.set_ylabel("Normalized Price (Start = 100)")
+ax1.legend(loc="upper left")
+ax1.grid(True)
+
+ax2 = ax1.twinx()
+ax2.plot(dates, diff, label="SOX - DJIA (Difference)",
+         color="green", linestyle="--")
+ax2.set_ylabel("Difference (SOX - DJIA)")
+ax2.legend(loc="upper right")
+ax1.set_title(f"SOX vs DJIA Comparison & Difference ({selected_window})")
+st.pyplot(fig)
 
 # ------------------ Plot Cumulative Difference ------------------
 st.subheader("Cumulative Difference Over Time (SOX - DJIA)")
-cumulative_diff = diff.fillna(0).cumsum()
-option_cum = {
-    "title": {"text": "Cumulative Difference Over Time"},
-    "tooltip": {"trigger": "axis"},
-    "xAxis": {"type": "category", "data": dates},
-    "yAxis": {"type": "value", "name": "Cumulative Difference (% points)"},
-    "series": [
-        {
-            "name": "Cumulative Difference",
-            "type": "line",
-            "data": cumulative_diff.round(2).tolist(),
-            "areaStyle": {"color": "rgba(0,128,0,0.2)"},
-            "lineStyle": {"color": "green"},
-            "smooth": True
-        }
-    ]
-}
-st_echarts(options=option_cum, height="400px")
+diff_filled = diff.fillna(0).astype(float)
+cumulative_diff = diff_filled.cumsum()
+
+fig2, ax = plt.subplots(figsize=(12, 4))
+ax.fill_between(dates, cumulative_diff.values, color='green', alpha=0.3)
+ax.plot(dates, cumulative_diff.values,
+        color='green', label="Cumulative Difference")
+ax.set_xlabel("Date")
+ax.set_ylabel("Cumulative Difference (% points)")
+ax.grid(True)
+ax.legend()
+st.pyplot(fig2)
