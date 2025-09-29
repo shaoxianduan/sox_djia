@@ -1,6 +1,6 @@
 # 📈 SOX vs DJIA Positive/Negative Return Comparison
-
-This project is a **Streamlit** web application for visualizing and comparing the cumulative returns of the **Philadelphia Semiconductor Index (SOX)** and the **Dow Jones Industrial Average (DJIA)** over different time windows.
+# （AI-Powered Analysis of Semiconductor and Index Returns）
+### Since the emergence of ChatGPT （2022，11，30） , how have AI-driven SOX and traditional industries performed in terms of returns?  This project is a Streamlit web application for visualizing and comparing the performance of AI-representing SOX and traditional industry DJIA, showing their cumulative returns over different time windows since the advent of ChatGPT.
 
 ---
 
@@ -88,13 +88,13 @@ Green shaded area = cumulative difference of SOX relative to DJIA:
 
 ## 🔮 Future Improvements
 
-* [ ] Annotate max/min points on the cumulative difference chart
-* [ ] Add more indices for comparison (e.g., NASDAQ, S&P 500)
-* [ ] Implement backtesting for investment strategies
+* [ ] Highlight peak/trough points in AI vs traditional industry performance
+* [ ] Add more AI-representative and traditional market indices for comparison (e.g., NASDAQ, S&P 500)
+* [ ] Implement backtesting to evaluate hypothetical AI-focused investment strategies
 
 ---
 
 ## 📝 License
 
-This project is for educational and research purposes only. Data is sourced from Yahoo Finance.
-Author: Shaoxian Duan
+* This project is for educational and research purposes only. Data is sourced from Yahoo Finance.
+* Author: Shaoxian Duan
