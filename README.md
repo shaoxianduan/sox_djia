@@ -19,6 +19,11 @@
 * ➖ **Difference Analysis**: Compute the difference between SOX and DJIA and show the latest difference value
 * 📉 **Cumulative Difference Plot**: Display the cumulative difference over the selected period
 
+## 🌐 Live Demo
+
+Try the app online: [SOX vs DJIA Comparison](https://soxdjia-lax6snjubmposywh7jrfty.streamlit.app/)
+
+
 ---
 
 ## 📦 Installation
