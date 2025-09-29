@@ -50,7 +50,7 @@ matplotlib
 Run the app in the project directory:
 
 ```bash
-streamlit run etftrack.py
+streamlit run sox_djia.py
 ```
 
 A browser window will automatically open at [http://localhost:8501](http://localhost:8501).
@@ -83,7 +83,7 @@ Green shaded area = cumulative difference of SOX relative to DJIA:
 
 ```
 .
-├── etftrack.py         # Main application script
+├── sox_djia.py         # Main application script
 ├── README.md           # Project documentation
 ├── requirements.txt    # Dependencies list
 └── docs/               # Optional screenshots folder

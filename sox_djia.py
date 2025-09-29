@@ -4,6 +4,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
+# ------------------ Author : Shaoxian Duan--------
 # ------------------ Page Config ------------------
 st.set_page_config(page_title="SOX vs DJIA", layout="wide")
 st.title("📈 SOX vs DJIA Positive/Negative Return Comparison")
