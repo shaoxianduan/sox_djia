@@ -41,6 +41,7 @@ streamlit
 yfinance
 pandas
 matplotlib
+streamlit-echarts
 ```
 
 ---
